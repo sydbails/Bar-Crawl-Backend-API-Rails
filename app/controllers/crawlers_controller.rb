@@ -20,7 +20,7 @@ class CrawlersController < ApplicationController
     end
     
     private
-    def cralwer_params
+    def crawler_params
         params.require(:crawler).permit(:user_id, :crawl_id)
     end
 

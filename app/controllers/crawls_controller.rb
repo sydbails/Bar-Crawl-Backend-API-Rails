@@ -7,12 +7,18 @@ class CrawlsController < ApplicationController
 
     def index
         crawls = Crawl.all
-        render json: crawls
+        render json: crawls.to_json(:include => {
+            :crawlers => {:except => [:user_id, :crawl_id, :created_at, :updated_at],
+            :include => {
+                :user => {:except => [:updated_at, :created_at]}
+            }}
+        })
     end
 
     def show
         crawl = Crawl.find_by(id: params[:id])
         render json: crawl.to_json(:include => {
+            :user => {:except => [:created_at, :updated_at]}}, :include => {
             :crawlers => {:except => [:user_id, :crawl_id, :created_at, :updated_at],
             :include => {
                 :user => {:except => [:updated_at, :created_at]}
